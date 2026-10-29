@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-visual">
+    <title>Latein-Magier - Vokabeltrainer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link id="theme-stylesheet" rel="stylesheet" href="panda-style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/jpeg" href="Panda-bg-2.jpeg">
+    <link rel="apple-touch-icon" href="Panda-bg-2.jpeg">
+</head>
+<body id="app-body" class="panda-theme">
+
+    <!-- Minecraft Header -->
+    <header id="main-header" class="w-full shadow-lg hidden">
+        <div class="max-w-md mx-auto flex justify-between items-center px-3 py-2">
+            <div class="flex items-center gap-2">
+                <span class="text-sm">⛏️</span>
+                <div>
+                    <h1 class="text-[9px] font-bold">Minecraft Latein</h1>
+                </div>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <button onclick="toggleTheme()" id="theme-btn" class="text-[8px] px-2 py-1 bg-zinc-700 text-white border border-zinc-500">🎨 Minecraft</button>
+                <div id="star-badge" class="text-[8px] px-2 py-1 bg-zinc-900 text-yellow-400 border border-zinc-700 font-bold">⭐ <span id="daily-progress">0/5</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Panda Theme Toggle Button -->
+    <div id="panda-theme-toggle-container" class="absolute top-2 right-2 z-50">
+        <button onclick="toggleTheme()" class="bg-white/90 backdrop-blur px-2.5 py-1 rounded-md text-[10px] font-bold shadow border border-stone-300 text-stone-800">
+            🎨 Panda
+        </button>
+    </div>
+
+    <!-- Hauptbereich -->
+    <main class="w-full max-w-md mx-auto flex-1 flex flex-col p-2 justify-center">
+
+        <!-- Minecraft Navigation -->
+        <nav id="minecraft-nav" class="hidden">
+            <button onclick="switchTab('train')" id="mc-tab-train" class="mc-nav-btn active">🎯 Üben</button>
+            <button onclick="switchTab('add')" id="mc-tab-add" class="mc-nav-btn">✨ Neu</button>
+            <button onclick="switchTab('stats')" id="mc-tab-stats" class="mc-nav-btn">📊 Verlauf</button>
+            <button onclick="switchTab('list')" id="mc-tab-list" class="mc-nav-btn">📚 Schatz</button>
+        </nav>
+
+        <!-- Zentraler Bildschirm-Container -->
+        <div id="panda-screen-container" class="relative w-full flex flex-col">
+
+            <!-- Panda Hotspots -->
+            <button id="hotspot-train" class="panda-hotspot" onclick="switchTab('train')"></button>
+            <button id="hotspot-add" class="panda-hotspot" onclick="switchTab('add')"></button>
+            <button id="hotspot-stats" class="panda-hotspot" onclick="switchTab('stats')"></button>
+            <button id="hotspot-list" class="panda-hotspot" onclick="switchTab('list')"></button>
+
+            <!-- Tagesziel Panda -->
+            <div class="panda-goal-box">
+                <div>Ziel: <span id="daily-progress-panda">0/5</span> ⭐</div>
+            </div>
+
+            <!-- SEITE: ÜBEN -->
+            <section id="view-train" class="w-full h-full flex flex-col flex-1">
+                <div id="train-container" class="w-full h-full flex flex-col justify-between"></div>
+            </section>
+
+            <!-- SEITE: NEU -->
+            <section id="view-add" class="hidden flex-col">
+                <div id="content-card-add" class="panda-content-card mc-card-box space-y-2">
+                    <h2 class="text-xs font-bold">✨ Neue Vokabel eintragen</h2>
+                    <form id="add-form" onsubmit="handleVocabSubmit(event)" class="space-y-2">
+                        <div>
+                            <label class="block text-[9px] font-bold mb-0.5">Lateinisch</label>
+                            <input type="text" id="input-lat" required class="w-full px-2 py-1 bg-white border border-stone-300 rounded text-xs text-stone-900 font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold mb-0.5">Deutsch</label>
+                            <input type="text" id="input-ger" required class="w-full px-2 py-1 bg-white border border-stone-300 rounded text-xs text-stone-900 font-bold">
+                        </div>
+                        <button type="submit" class="w-full bg-[#e07a5f] text-white font-bold py-1.5 rounded text-xs">Speichern</button>
+                    </form>
+                    <div id="validation-box" class="hidden p-2 rounded text-[10px]"></div>
+                </div>
+            </section>
+
+            <!-- SEITE: STATISTIK -->
+            <section id="view-stats" class="hidden flex-col">
+                <div id="content-card-stats" class="panda-content-card mc-card-box space-y-2">
+                    <h2 class="text-xs font-bold">📊 Verlauf & Belohnungen</h2>
+                    <div id="history-bars" class="flex justify-between items-end h-14 pt-2 border-b border-stone-500/30"></div>
+                    <div class="bg-stone-500/20 p-2 rounded flex justify-between items-center text-xs font-bold">
+                        <span>🔥 Aktuelle Serie:</span>
+                        <span id="streak-days">0 Tage</span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-1 text-center pt-1" id="rewards-container"></div>
+                </div>
+            </section>
+
+            <!-- SEITE: LISTE -->
+            <section id="view-list" class="hidden flex-col">
+                <div id="content-card-list" class="panda-content-card mc-card-box space-y-2">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xs font-bold">📚 Schatz</h2>
+                        <span id="total-count" class="text-[9px] font-bold bg-amber-100 px-2 py-0.5 rounded text-amber-800">0</span>
+                    </div>
+                    <div id="vocab-list-container" class="space-y-1 max-h-[50vh] overflow-y-auto"></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
