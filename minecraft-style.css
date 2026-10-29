@@ -1,0 +1,92 @@
+/* --- Minecraft Design --- */
+body.minecraft-theme {
+    background-color: #18181b !important;
+    background-image: none !important;
+    font-family: 'Press Start 2P', monospace !important;
+    color: #f4f4f5;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+body.minecraft-theme #panda-screen-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background-image: url('Mincraft-bg-2.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    border: 4px solid #27272a;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    min-height: 80vh;
+}
+
+body.minecraft-theme #main-header {
+    display: block !important;
+    background-color: #27272a;
+    color: #4ade80;
+    border-bottom: 3px solid #09090b;
+    padding: 6px 10px;
+}
+
+body.minecraft-theme #minecraft-nav {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    background-color: #27272a;
+    border: 2px solid #52525b;
+    padding: 4px;
+    margin-bottom: 8px;
+}
+
+body.minecraft-theme .mc-nav-btn {
+    background-color: #3f3f46;
+    color: #d4d4d8;
+    border: 2px solid #71717a;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 5px 2px;
+    text-align: center;
+    cursor: pointer;
+}
+
+body.minecraft-theme .mc-nav-btn.active {
+    background-color: #15803d;
+    color: #ffffff;
+    border-color: #22c55e;
+}
+
+/* Minecraft Sprechblase im typischen Look */
+body.minecraft-theme .minecraft-stone-bubble {
+    background-color: #e4e4e7;
+    color: #18181b !important;
+    border: 3px solid #3f3f46;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 4px 4px 0px #09090b;
+    display: inline-block;
+}
+
+body.minecraft-theme .minecraft-input-box {
+    background-color: #f4f4f5 !important;
+    border: 3px solid #3f3f46 !important;
+    color: #18181b !important;
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 9px !important;
+    box-shadow: 2px 2px 0px #000;
+}
+
+body.minecraft-theme #submit-btn {
+    background-color: #8c7853 !important;
+    color: #ffffff !important;
+    border: 2px solid #3e2714 !important;
+    border-bottom: 4px solid #27180b !important;
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 8px !important;
+    padding: 6px 12px;
+    box-shadow: 2px 2px 0px #000;
+}
