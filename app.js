@@ -392,7 +392,9 @@ function checkTypedAnswer(e) {
     const feedback = document.getElementById('answer-feedback');
     if (feedback) feedback.classList.remove('hidden');
 
-    const isCorrect = input === target || target.includes(input);
+    // Nur bei exakter Übereinstimmung ODER wenn die Antwort auf einer gültigen Liste exakter Bedeutungen steht
+    // Wir verbieten damit, dass ein einzelner Buchstabe via .includes() durchrutscht.
+    const isCorrect = (input === target) || (input.length > 1 && target.includes(input));
 
     currentCard.lastReviewed = Date.now();
     if (isCorrect) {
