@@ -87,7 +87,7 @@
                 </div>
             </section>
 
-            <!-- SEITE: STATISTIK -->
+           <!-- SEITE: STATISTIK -->
             <section id="view-stats" class="hidden flex-col">
                 <div id="content-card-stats" class="panda-content-card mc-card-box space-y-2">
                     <h2 class="text-xs font-bold">📊 Verlauf & Belohnungen</h2>
@@ -97,6 +97,20 @@
                         <span id="streak-days">0 Tage</span>
                     </div>
                     <div class="grid grid-cols-4 gap-1 text-center pt-1" id="rewards-container"></div>
+                    
+                    <!-- NEU: Der Eltern-Button -->
+                    <div class="pt-2">
+                        <button onclick="requestParentAccess()" class="w-full bg-stone-700 text-white font-bold py-1.5 rounded text-xs">🔒 Eltern-Bereich</button>
+                        <div id="parent-settings" class="hidden mt-2 p-2 bg-stone-100 border border-stone-300 rounded text-xs space-y-2">
+                            <h3 class="font-bold">Belohnungen anpassen:</h3>
+                            <div class="space-y-1 text-[10px]">
+                                <div>10 Tage: <input type="text" id="reward-10" onchange="saveReward(10, this.value)" class="border p-1 rounded w-full"></div>
+                                <div>20 Tage: <input type="text" id="reward-20" onchange="saveReward(20, this.value)" class="border p-1 rounded w-full"></div>
+                                <div>50 Tage: <input type="text" id="reward-50" onchange="saveReward(50, this.value)" class="border p-1 rounded w-full"></div>
+                                <div>100 Tage: <input type="text" id="reward-100" onchange="saveReward(100, this.value)" class="border p-1 rounded w-full"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
