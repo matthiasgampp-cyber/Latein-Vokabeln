@@ -7,7 +7,7 @@ const DICTIONARY = {
     "servus": ["sklave"],
     "serva": ["sklavin"],
     "dominus": ["hausherr"],
-    "domina": ["hausfrau"],
+    "domina": ["hausherrin"],
     "esse": ["sein"],
     "est": ["ist"],
     "sunt": ["sind"],
@@ -102,7 +102,7 @@ let appData = JSON.parse(localStorage.getItem('latinitas_kids_v29')) || {
         { id: 5, lat: "servus", ger: "Sklave", phase: 1, streak: 0, lastReviewed: null },
         { id: 6, lat: "serva", ger: "Sklavin", phase: 1, streak: 0, lastReviewed: null },
         { id: 7, lat: "dominus", ger: "Hausherr", phase: 1, streak: 0, lastReviewed: null },
-        { id: 8, lat: "domina", ger: "Hausfrau", phase: 1, streak: 0, lastReviewed: null },
+        { id: 8, lat: "domina", ger: "Hausherrin", phase: 1, streak: 0, lastReviewed: null },
         { id: 9, lat: "esse", ger: "sein", phase: 1, streak: 0, lastReviewed: null },
         { id: 10, lat: "est", ger: "ist", phase: 1, streak: 0, lastReviewed: null },
         { id: 11, lat: "sunt", ger: "sind", phase: 1, streak: 0, lastReviewed: null },
@@ -360,7 +360,7 @@ function loadNextCard() {
             <div class="w-full max-w-xs px-2 absolute bottom-4 left-1/2 -translate-x-1/2 space-y-1.5 z-20">
                 <div id="answer-feedback" class="hidden text-[8px] font-bold p-1 text-center shadow-md"></div>
                 <form onsubmit="checkTypedAnswer(event)" id="train-form" class="space-y-1">
-                    <input type="text" id="user-answer" required autocomplete="off" class="minecraft-input-box w-full px-2 py-1.5 text-center font-bold focus:outline-none" placeholder="Übersetzung...">
+                    <input type="text" id="user-answer" required autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false" class="minecraft-input-box w-full px-2 py-1.5 text-center font-bold focus:outline-none" placeholder="Übersetzung...">
                     <div class="text-center">
                         <button type="submit" id="submit-btn" class="font-bold transition uppercase cursor-pointer">PRÜFEN</button>
                     </div>
@@ -377,7 +377,7 @@ function loadNextCard() {
 
             <form onsubmit="checkTypedAnswer(event)" id="train-form">
                 <div class="panda-input-area">
-                    <input type="text" id="user-answer" required autocomplete="off" class="panda-text-input" placeholder="Übersetzung...">
+                    <input type="text" id="user-answer" required autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false" class="panda-text-input" placeholder="Übersetzung...">
                 </div>
                 <button type="submit" class="panda-submit-btn">Veritas</button>
             </form>
@@ -388,13 +388,12 @@ function loadNextCard() {
 function checkTypedAnswer(e) {
     e.preventDefault();
     const input = document.getElementById('user-answer').value.trim().toLowerCase();
-    const target = currentCard.ger.trim().toLowerCase();
     const feedback = document.getElementById('answer-feedback');
     if (feedback) feedback.classList.remove('hidden');
 
-    // Nur bei exakter Übereinstimmung ODER wenn die Antwort auf einer gültigen Liste exakter Bedeutungen steht
-    // Wir verbieten damit, dass ein einzelner Buchstabe via .includes() durchrutscht.
-    const isCorrect = (input === target) || (input.length > 1 && target.includes(input));
+    // Exakte Prüfung aller durch Komma getrennten Alternativen (kein ungenaues includes mehr)
+    const validOptions = currentCard.ger.toLowerCase().split(',').map(s => s.trim());
+    const isCorrect = validOptions.includes(input);
 
     currentCard.lastReviewed = Date.now();
     if (isCorrect) {
