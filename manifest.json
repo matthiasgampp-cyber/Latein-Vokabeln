@@ -1,0 +1,17 @@
+{
+  "name": "Latein-Magier Vokabeltrainer",
+  "short_name": "Latein",
+  "start_url": "index.html",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#fdf8f2",
+  "theme_color": "#143d22",
+  "icons": [
+    {
+      "src": "Panda-bg-2.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
