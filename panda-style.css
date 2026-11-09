@@ -165,3 +165,19 @@ body.panda-theme .vocab-item {
 body.minecraft-theme #panda-theme-toggle-container {
     display: none !important;
 }
+/* Panda-Theme Belohnungs-Pop-up: Textanzeige korrigieren */
+.reward-modal, 
+.reward-box, 
+#reward-screen {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    padding-bottom: 20px !important;
+}
+
+.reward-text, 
+.reward-description {
+    white-space: normal !important;
+    overflow: visible !important;
+    max-height: none !important;
+    line-height: 1.4 !important;
+}

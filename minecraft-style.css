@@ -104,3 +104,19 @@ body.minecraft-theme #submit-btn {
     background-color: #ffffff !important;
     border: 2px solid #333333 !important;
 }
+/* Belohnungs-Pop-up: Vollständige Textanzeige sicherstellen */
+.reward-modal, 
+.reward-box, 
+#reward-screen {
+    max-height: 90vh !important; /* Passt sich der Bildschirmhöhe an */
+    overflow-y: auto !important;  /* Erlaubt Scrollen, falls der Text zu lang ist */
+    padding-bottom: 20px !important;
+}
+
+.reward-text, 
+.reward-description {
+    white-space: normal !important;
+    overflow: visible !important;
+    max-height: none !important;
+    line-height: 1.4 !important;
+}
