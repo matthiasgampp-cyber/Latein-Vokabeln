@@ -1,192 +1,18 @@
-// Vollständiges Vokabel-Wörterbuch zur Validierung
-const DICTIONARY = {
-    "ecce": ["schau"],
-    "ibi": ["dort", "da"],
-    "etiam": ["auch", "sogar"],
-    "et": ["und"],
-    "servus": ["sklave"],
-    "serva": ["sklavin"],
-    "dominus": ["hausherr"],
-    "domina": ["hausherrin"],
-    "esse": ["sein"],
-    "est": ["ist"],
-    "sunt": ["sind"],
-    "stare": ["stehen"],
-    "stat": ["steht"],
-    "stant": ["stehen"],
-    "cogitare": ["nachdenken"],
-    "cogitat": ["denkt nach"],
-    "cogitant": ["denken nach"],
-    "clamare": ["rufen"],
-    "clamat": ["ruft"],
-    "clamant": ["rufen"],
-    "iam": ["schon"],
-    "tum": ["da", "dann", "damals"],
-    "postremo": ["schließlich"],
-    "sed": ["aber", "sondern"],
-    "nondum": ["noch nicht"],
-    "cur": ["warum"],
-    "non": ["nicht", "nein"],
-    "tandem": ["endlich", "schließlich"],
-    "itaque": ["deshalb"],
-    "huc": ["hierher"],
-    "solum": ["nur"],
-    "equus": ["pferd"],
-    "equi": ["pferde"],
-    "populus": ["volk"],
-    "populi": ["völker"],
-    "victoria": ["sieg"],
-    "victoriae": ["siege"],
-    "medicus": ["arzt"],
-    "medici": ["ärzte"],
-    "debere": ["müssen", "sollen", "schulden"],
-    "debet": ["muss", "soll", "schuldet"],
-    "debent": ["müssen", "sollen", "schulden"],
-    "dubitare": ["zögern", "zweifeln"],
-    "dubitat": ["zögert", "zweifelt"],
-    "dubitant": ["zögern", "zweifeln"],
-    "gaudere": ["sich freuen"],
-    "gaudet": ["freut sich"],
-    "gaudent": ["freuen sich"],
-    "spectare": ["betrachten", "anschauen"],
-    "spectat": ["betrachtet"],
-    "spectant": ["betrachten"],
-    "audere": ["wagen", "sich trauen"],
-    "audet": ["wagt sich"],
-    "audent": ["wagen sich"],
-    "orare": ["bitten", "beten", "anbeten"],
-    "orat": ["bittet", "betet"],
-    "orant": ["bitten", "beten"],
-    "videre": ["sehen"],
-    "videt": ["sieht"],
-    "vident": ["sehen"],
-    "venire": ["kommen"],
-    "venit": ["kommt"],
-    "veniunt": ["kommen"],
-    "ridere": ["lachen"],
-    "ridet": ["lacht"],
-    "rident": ["lachen"],
-    "adesse": ["da sein", "helfen"],
-    "adest": ["ist da"],
-    "adsunt": ["sind da"],
-    "diu": ["lange", "lange zeit"],
-    "expectare": ["warten auf", "erwarten"],
-    "expectat": ["wartet auf"],
-    "expectant": ["warten auf"],
-    "per": ["durch"],
-    "via": ["weg", "straße"],
-    "properare": ["eilen", "sich beeilen"],
-    "properat": ["eilt"],
-    "properant": ["eilen"],
-    "semper": ["immer"],
-    "post": ["hinter", "nach"],
-    "subito": ["plötzlich"],
-    "non iam": ["nicht mehr"],
-    "nam": ["denn", "nämlich"],
-    "undique": ["von allen seiten", "überall"],
-    "turba": ["menschenmenge"],
-    "reperire": ["finden", "wiederfinden"],
-    "reperit": ["findet"],
-    "reperiunt": ["finden"],
-    "ante": ["vor"],
-    "taberna": ["gasthaus", "laden"],
-    "tabernae": ["gasthäuser", "läden"]
-};
+// Start-Vokabeln automatisch aus der vocabulary.js (DICTIONARY) aufbauen
+function buildInitialVocabList() {
+    if (typeof DICTIONARY === 'undefined') return [];
+    return Object.entries(DICTIONARY).map(([lat, gerList], index) => ({
+        id: index + 1,
+        lat: lat,
+        ger: Array.isArray(gerList) ? gerList.join(', ') : gerList,
+        phase: 1,
+        streak: 0,
+        lastReviewed: null
+    }));
+}
 
 let appData = JSON.parse(localStorage.getItem('latinitas_kids_v29')) || {
-    vocabList: [
-        { id: 1, lat: "ecce!", ger: "schau!", phase: 1, streak: 0, lastReviewed: null },
-        { id: 2, lat: "ibi", ger: "dort", phase: 1, streak: 0, lastReviewed: null },
-        { id: 3, lat: "etiam", ger: "auch, sogar", phase: 1, streak: 0, lastReviewed: null },
-        { id: 4, lat: "et", ger: "und", phase: 1, streak: 0, lastReviewed: null },
-        { id: 5, lat: "servus", ger: "Sklave", phase: 1, streak: 0, lastReviewed: null },
-        { id: 6, lat: "serva", ger: "Sklavin", phase: 1, streak: 0, lastReviewed: null },
-        { id: 7, lat: "dominus", ger: "Hausherr", phase: 1, streak: 0, lastReviewed: null },
-        { id: 8, lat: "domina", ger: "Hausherrin", phase: 1, streak: 0, lastReviewed: null },
-        { id: 9, lat: "esse", ger: "sein", phase: 1, streak: 0, lastReviewed: null },
-        { id: 10, lat: "est", ger: "ist", phase: 1, streak: 0, lastReviewed: null },
-        { id: 11, lat: "sunt", ger: "sind", phase: 1, streak: 0, lastReviewed: null },
-        { id: 12, lat: "stare", ger: "stehen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 13, lat: "stat", ger: "steht", phase: 1, streak: 0, lastReviewed: null },
-        { id: 14, lat: "stant", ger: "stehen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 15, lat: "cogitare", ger: "nachdenken", phase: 1, streak: 0, lastReviewed: null },
-        { id: 16, lat: "cogitat", ger: "denkt nach", phase: 1, streak: 0, lastReviewed: null },
-        { id: 17, lat: "cogitant", ger: "denken nach", phase: 1, streak: 0, lastReviewed: null },
-        { id: 18, lat: "clamare", ger: "rufen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 19, lat: "clamat", ger: "ruft", phase: 1, streak: 0, lastReviewed: null },
-        { id: 20, lat: "clamant", ger: "rufen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 21, lat: "iam", ger: "schon", phase: 1, streak: 0, lastReviewed: null },
-        { id: 22, lat: "tum", ger: "da, dann, damals", phase: 1, streak: 0, lastReviewed: null },
-        { id: 23, lat: "postremo", ger: "schließlich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 24, lat: "sed", ger: "aber, sondern", phase: 1, streak: 0, lastReviewed: null },
-        { id: 25, lat: "nondum", ger: "noch nicht", phase: 1, streak: 0, lastReviewed: null },
-        { id: 26, lat: "cur?", ger: "warum?", phase: 1, streak: 0, lastReviewed: null },
-        { id: 27, lat: "non", ger: "nicht, nein", phase: 1, streak: 0, lastReviewed: null },
-        { id: 28, lat: "tandem", ger: "endlich, schließlich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 29, lat: "itaque", ger: "deshalb", phase: 1, streak: 0, lastReviewed: null },
-        { id: 30, lat: "huc", ger: "hierher", phase: 1, streak: 0, lastReviewed: null },
-        { id: 31, lat: "solum", ger: "nur", phase: 1, streak: 0, lastReviewed: null },
-        { id: 32, lat: "equus", ger: "Pferd", phase: 1, streak: 0, lastReviewed: null },
-        { id: 33, lat: "equi", ger: "Pferde", phase: 1, streak: 0, lastReviewed: null },
-        { id: 34, lat: "populus", ger: "Volk", phase: 1, streak: 0, lastReviewed: null },
-        { id: 35, lat: "populi", ger: "Völker", phase: 1, streak: 0, lastReviewed: null },
-        { id: 36, lat: "victoria", ger: "Sieg", phase: 1, streak: 0, lastReviewed: null },
-        { id: 37, lat: "victoriae", ger: "Siege", phase: 1, streak: 0, lastReviewed: null },
-        { id: 38, lat: "medicus", ger: "Arzt", phase: 1, streak: 0, lastReviewed: null },
-        { id: 39, lat: "medici", ger: "Ärzte", phase: 1, streak: 0, lastReviewed: null },
-        { id: 40, lat: "debere", ger: "müssen, sollen, schulden", phase: 1, streak: 0, lastReviewed: null },
-        { id: 41, lat: "debet", ger: "muss, soll, schuldet", phase: 1, streak: 0, lastReviewed: null },
-        { id: 42, lat: "debent", ger: "müssen, sollen, schulden", phase: 1, streak: 0, lastReviewed: null },
-        { id: 43, lat: "dubitare", ger: "zögern, zweifeln", phase: 1, streak: 0, lastReviewed: null },
-        { id: 44, lat: "dubitat", ger: "zögert, zweifelt", phase: 1, streak: 0, lastReviewed: null },
-        { id: 45, lat: "dubitant", ger: "zögern, zweifeln", phase: 1, streak: 0, lastReviewed: null },
-        { id: 46, lat: "gaudere", ger: "sich freuen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 47, lat: "gaudet", ger: "freut sich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 48, lat: "gaudent", ger: "freuen sich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 49, lat: "spectare", ger: "betrachten, anschauen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 50, lat: "spectat", ger: "betrachtet", phase: 1, streak: 0, lastReviewed: null },
-        { id: 51, lat: "spectant", ger: "betrachten", phase: 1, streak: 0, lastReviewed: null },
-        { id: 52, lat: "audere", ger: "wagen, sich trauen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 53, lat: "audet", ger: "wagt sich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 54, lat: "audent", ger: "wagen sich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 55, lat: "orare", ger: "bitten, beten, anbeten", phase: 1, streak: 0, lastReviewed: null },
-        { id: 56, lat: "orat", ger: "bittet, betet", phase: 1, streak: 0, lastReviewed: null },
-        { id: 57, lat: "orant", ger: "bitten, beten", phase: 1, streak: 0, lastReviewed: null },
-        { id: 58, lat: "videre", ger: "sehen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 59, lat: "videt", ger: "sieht", phase: 1, streak: 0, lastReviewed: null },
-        { id: 60, lat: "vident", ger: "sehen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 61, lat: "venire", ger: "kommen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 62, lat: "venit", ger: "kommt", phase: 1, streak: 0, lastReviewed: null },
-        { id: 63, lat: "veniunt", ger: "kommen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 64, lat: "ridere", ger: "lachen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 65, lat: "ridet", ger: "lacht", phase: 1, streak: 0, lastReviewed: null },
-        { id: 66, lat: "rident", ger: "lachen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 67, lat: "adesse", ger: "da sein, helfen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 68, lat: "adest", ger: "ist da", phase: 1, streak: 0, lastReviewed: null },
-        { id: 69, lat: "adsunt", ger: "sind da", phase: 1, streak: 0, lastReviewed: null },
-        { id: 70, lat: "diu", ger: "lange, lange Zeit", phase: 1, streak: 0, lastReviewed: null },
-        { id: 71, lat: "expectare", ger: "warten auf, erwarten", phase: 1, streak: 0, lastReviewed: null },
-        { id: 72, lat: "expectat", ger: "wartet auf", phase: 1, streak: 0, lastReviewed: null },
-        { id: 73, lat: "expectant", ger: "warten auf", phase: 1, streak: 0, lastReviewed: null },
-        { id: 74, lat: "per", ger: "durch", phase: 1, streak: 0, lastReviewed: null },
-        { id: 75, lat: "via", ger: "Weg, Straße", phase: 1, streak: 0, lastReviewed: null },
-        { id: 76, lat: "properare", ger: "eilen, sich beeilen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 77, lat: "properat", ger: "eilt", phase: 1, streak: 0, lastReviewed: null },
-        { id: 78, lat: "properant", ger: "eilen", phase: 1, streak: 0, lastReviewed: null },
-        { id: 79, lat: "semper", ger: "immer", phase: 1, streak: 0, lastReviewed: null },
-        { id: 80, lat: "post", ger: "hinter, nach", phase: 1, streak: 0, lastReviewed: null },
-        { id: 81, lat: "subito", ger: "plötzlich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 82, lat: "non iam", ger: "nicht mehr", phase: 1, streak: 0, lastReviewed: null },
-        { id: 83, lat: "nam", ger: "denn, nämlich", phase: 1, streak: 0, lastReviewed: null },
-        { id: 84, lat: "undique", ger: "von allen Seiten, überall", phase: 1, streak: 0, lastReviewed: null },
-        { id: 85, lat: "turba", ger: "Menschenmenge", phase: 1, streak: 0, lastReviewed: null },
-        { id: 86, lat: "reperire", ger: "finden, wiederfinden", phase: 1, streak: 0, lastReviewed: null },
-        { id: 87, lat: "reperit", ger: "findet", phase: 1, streak: 0, lastReviewed: null },
-        { id: 88, lat: "reperiunt", ger: "finden", phase: 1, streak: 0, lastReviewed: null },
-        { id: 89, lat: "ante", ger: "vor", phase: 1, streak: 0, lastReviewed: null },
-        { id: 90, lat: "taberna", ger: "Gasthaus, Laden", phase: 1, streak: 0, lastReviewed: null },
-        { id: 91, lat: "tabernae", ger: "Gasthäuser, Läden", phase: 1, streak: 0, lastReviewed: null }
-    ],
+    vocabList: buildInitialVocabList(),
     history: {},
     rewards: {
         10: "Überraschung!",
@@ -195,11 +21,18 @@ let appData = JSON.parse(localStorage.getItem('latinitas_kids_v29')) || {
         100: "Großer Ausflug!"
     },
     theme: 'panda',
-    lastLoginDate: new Date().toDateString()
+    lastLoginDate: new Date().toDateString(),
+    streakOffset: 0
 };
+
+// Falls der Speicher leer angelegt wurde, sicherstellen, dass Start-Vokabeln geladen sind
+if (!appData.vocabList || appData.vocabList.length === 0) {
+    appData.vocabList = buildInitialVocabList();
+}
 
 const todayKey = new Date().toISOString().split('T')[0];
 if (!appData.history[todayKey]) appData.history[todayKey] = 0;
+if (appData.streakOffset === undefined) appData.streakOffset = 0;
 
 function saveData() {
     localStorage.setItem('latinitas_kids_v29', JSON.stringify(appData));
@@ -246,7 +79,7 @@ function applyTheme() {
 
 function updateUI() {
     const todayCount = appData.history[todayKey] || 0;
-    const target = 5;
+    const target = 10;
     const progressEl = document.getElementById('daily-progress');
     const progressPandaEl = document.getElementById('daily-progress-panda');
     if (progressEl) progressEl.innerText = `${Math.min(todayCount, target)}/${target}`;
@@ -285,7 +118,8 @@ function handleVocabSubmit(e) {
     box.classList.remove('hidden');
 
     const cleanLat = lat.replace(/[!?]/g, '').trim();
-    const validAnswers = DICTIONARY[lat] || DICTIONARY[cleanLat];
+    const dict = typeof DICTIONARY !== 'undefined' ? DICTIONARY : {};
+    const validAnswers = dict[lat] || dict[cleanLat];
     let isExactMatch = validAnswers && validAnswers.some(a => ger.toLowerCase().includes(a.toLowerCase()));
 
     if (isExactMatch || !validAnswers) {
@@ -391,7 +225,6 @@ function checkTypedAnswer(e) {
     const feedback = document.getElementById('answer-feedback');
     if (feedback) feedback.classList.remove('hidden');
 
-    // Exakte Prüfung aller durch Komma getrennten Alternativen (kein ungenaues includes mehr)
     const validOptions = currentCard.ger.toLowerCase().split(',').map(s => s.trim());
     const isCorrect = validOptions.includes(input);
 
@@ -424,16 +257,32 @@ function checkTypedAnswer(e) {
     setTimeout(loadNextCard, 1800);
 }
 
-function calculateStreak() {
+function calculateRawStreak() {
     let streak = 0;
     for (let i = 0; i < 365; i++) {
         const d = new Date();
         d.setDate(d.getDate() - i);
         const k = d.toISOString().split('T')[0];
-        if ((appData.history[k] || 0) >= 5) streak++;
-        else if (i > 0) break;
+        const count = appData.history[k] || 0;
+        
+        // Heute gilt das neue Ziel (10), für vergangene Tage das alte Ziel (5)
+        const required = (i === 0) ? 10 : 5;
+        
+        if (count >= required) {
+            streak++;
+        } else if (i === 0) {
+            continue;
+        } else {
+            break;
+        }
     }
     return streak;
+}
+
+function calculateStreak() {
+    const raw = calculateRawStreak();
+    const offset = appData.streakOffset || 0;
+    return Math.max(raw, raw + offset);
 }
 
 function renderStats() {
@@ -465,11 +314,6 @@ function renderStats() {
     const streakEl = document.getElementById('streak-days');
     if (streakEl) streakEl.innerText = `${streak} Tage`;
 
-    [10, 20, 50, 100].forEach(days => {
-        const input = document.getElementById(`reward-${days}`);
-        if (input) input.value = appData.rewards[days] || "";
-    });
-
     renderRewards(streak);
 }
 
@@ -477,10 +321,75 @@ function requestParentAccess() {
     const pin = prompt("Bitte Eltern-Code eingeben:");
     if (pin === "0604") {
         const panel = document.getElementById('parent-settings');
-        if (panel) panel.classList.toggle('hidden');
+        if (panel) {
+            panel.classList.toggle('hidden');
+            if (!panel.classList.contains('hidden')) {
+                renderParentSettingsContent();
+            }
+        }
     } else if (pin !== null) {
         alert("Falscher Code!");
     }
+}
+
+function renderParentSettingsContent() {
+    const panel = document.getElementById('parent-settings');
+    if (!panel) return;
+    
+    const currentStreak = calculateStreak();
+    
+    panel.innerHTML = `
+        <div class="p-3 bg-amber-50 border border-amber-300 rounded-lg text-stone-800 space-y-3 text-[10px]">
+            <h4 class="font-bold text-amber-900 text-xs">👨‍👩‍👧 Eltern-Bereich</h4>
+            
+            <div class="space-y-1">
+                <label class="block font-bold">Aktuelle Serie (Streak) anpassen:</label>
+                <div class="flex gap-2">
+                    <input type="number" id="parent-streak-input" value="${currentStreak}" class="w-20 px-2 py-1 border rounded bg-white font-bold text-center" min="0" max="365">
+                    <button onclick="saveManualStreak()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-1 rounded">Serie setzen</button>
+                </div>
+                <p class="text-[8px] text-stone-600">Setzt die Serie manuell auf den gewünschten Wert (z.B. 15 Tage).</p>
+            </div>
+
+            <div class="border-t border-amber-200 pt-2">
+                <p class="font-bold mb-1">Belohnungen anpassen:</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <span class="text-[8px]">10 Tage:</span>
+                        <input type="text" id="reward-10" value="${appData.rewards[10] || ''}" onchange="saveReward(10, this.value)" class="w-full px-1 py-0.5 border rounded bg-white text-[9px]">
+                    </div>
+                    <div>
+                        <span class="text-[8px]">20 Tage:</span>
+                        <input type="text" id="reward-20" value="${appData.rewards[20] || ''}" onchange="saveReward(20, this.value)" class="w-full px-1 py-0.5 border rounded bg-white text-[9px]">
+                    </div>
+                    <div>
+                        <span class="text-[8px]">50 Tage:</span>
+                        <input type="text" id="reward-50" value="${appData.rewards[50] || ''}" onchange="saveReward(50, this.value)" class="w-full px-1 py-0.5 border rounded bg-white text-[9px]">
+                    </div>
+                    <div>
+                        <span class="text-[8px]">100 Tage:</span>
+                        <input type="text" id="reward-100" value="${appData.rewards[100] || ''}" onchange="saveReward(100, this.value)" class="w-full px-1 py-0.5 border rounded bg-white text-[9px]">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function saveManualStreak() {
+    const input = document.getElementById('parent-streak-input');
+    if (!input) return;
+    const desired = parseInt(input.value, 10);
+    if (isNaN(desired) || desired < 0) {
+        alert("Bitte eine gültige Zahl eingeben.");
+        return;
+    }
+    const raw = calculateRawStreak();
+    appData.streakOffset = desired - raw;
+    saveData();
+    renderStats();
+    renderParentSettingsContent();
+    alert(`Serie erfolgreich auf ${desired} Tage gesetzt!`);
 }
 
 function saveReward(days, val) {
